@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sic/components/custem_button.dart';
 import 'package:sic/components/custem_text.dart';
 import 'package:sic/components/custem_textfeeld.dart';
+import 'package:sic/home/home.dart';
 import 'package:sic/screens/auth/register_page/register.dart';
 import 'package:sic/utils/utill_functions.dart';
 
@@ -92,7 +93,7 @@ class _SicLoginPageState extends State<SicLoginPage> {
               ),
               CustemButton(
                   onTap: () {
-                    //UtillFunction.navigateTo(context, const HomeScreen());
+                    UtillFunction.navigateTo(context, const Home());
                   },
                   text: 'Login'),
               const SizedBox(
