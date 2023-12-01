@@ -13,14 +13,12 @@ class SicCommonScreen extends StatefulWidget {
 }
 
 class _SicCommonScreenState extends State<SicCommonScreen> {
-  int _selectedTab = 0;
-
   // Define your pages here
   final List<Widget> _pages = [
     Home(),
-    SicProfile(),
     SicTransAtions(),
     SicCard(),
+    SicProfile(),
   ];
 
   late PersistentTabController _controller;
@@ -59,8 +57,8 @@ class _SicCommonScreenState extends State<SicCommonScreen> {
             activeColorPrimary: Color(0xffD3F570),
             inactiveColorPrimary: Colors.white),
       ],
-      decoration: NavBarDecoration(
-        colorBehindNavBar: Colors.black,
+      decoration: const NavBarDecoration(
+        colorBehindNavBar: Color(0xff181816),
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
       ),
