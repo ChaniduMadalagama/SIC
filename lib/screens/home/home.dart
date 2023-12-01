@@ -115,7 +115,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
-                          color: Color(0xff1B1B1B),
+                          color: const Color(0xff1B1B1B),
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: const Icon(
@@ -141,7 +141,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
-                          color: Color(0xff1B1B1B),
+                          color: const Color(0xff1B1B1B),
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: const Icon(
@@ -167,7 +167,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
-                          color: Color(0xff1B1B1B),
+                          color: const Color(0xff1B1B1B),
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: const Icon(
