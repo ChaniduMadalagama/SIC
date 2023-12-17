@@ -15,10 +15,10 @@ class SicCommonScreen extends StatefulWidget {
 class _SicCommonScreenState extends State<SicCommonScreen> {
   // Define your pages here
   final List<Widget> _pages = [
-    Home(),
-    SicTransAtions(),
-    SicCard(),
-    SicProfile(),
+    const Home(),
+    const SicTransAtions(),
+    const SicCard(),
+    const SicProfile(),
   ];
 
   late PersistentTabController _controller;
@@ -37,24 +37,24 @@ class _SicCommonScreenState extends State<SicCommonScreen> {
       screens: _pages,
       items: [
         PersistentBottomNavBarItem(
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             title: 'Home',
-            activeColorPrimary: Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffD3F570),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
-            icon: Icon(Icons.credit_card),
+            icon: const Icon(Icons.credit_card),
             title: 'Card',
-            activeColorPrimary: Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffD3F570),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
-            icon: Icon(Icons.monetization_on),
+            icon: const Icon(Icons.monetization_on),
             title: 'Transaction',
-            activeColorPrimary: Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffD3F570),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
             title: 'Profile',
-            activeColorPrimary: Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffD3F570),
             inactiveColorPrimary: Colors.white),
       ],
       decoration: const NavBarDecoration(
