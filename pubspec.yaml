@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
   persistent_bottom_nav_bar: ^5.0.2
+  intl_phone_field: ^3.2.0
+  csc_picker: ^0.2.7
 
 dev_dependencies:
   flutter_test:
