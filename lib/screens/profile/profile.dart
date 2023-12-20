@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sic/components/custem_text.dart';
+import 'package:sic/screens/profile/profile_verification.dart';
+import 'package:sic/utils/utill_functions.dart';
 
 class SicProfile extends StatefulWidget {
-  const SicProfile({super.key});
+   final Map<String, dynamic> userData;
+  const SicProfile({super.key, required this.userData});
 
   @override
   State<SicProfile> createState() => _SicProfileState();
@@ -60,6 +63,56 @@ class _SicProfileState extends State<SicProfile> {
                     fontsize: 12,
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                UtillFunction.navigateTo(context, FileUploadPage(userData: widget.userData,));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: const Color(0xff1B1B1B),
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: const Color(0xffD3F570),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: const Icon(
+                        Icons.verified,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const CustemText(
+                      text: 'Profile verification',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontsize: 16,
+                    ),
+                    const Expanded(
+                      child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -204,38 +257,43 @@ class _SicProfileState extends State<SicProfile> {
               decoration: BoxDecoration(
                   color: const Color(0xff1B1B1B),
                   borderRadius: BorderRadius.circular(16)),
-              child: Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: const Color(0xffD3F570),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const CustemText(
-                    text: 'Sign out',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontsize: 16,
-                  ),
-                  const Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
+              child: InkWell(
+                onTap: () {
+                  UtillFunction.logout(context);
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: const Color(0xffD3F570),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: const Icon(
+                        Icons.logout,
                         color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const CustemText(
+                      text: 'Sign out',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontsize: 16,
+                    ),
+                    const Expanded(
+                      child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

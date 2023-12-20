@@ -6,28 +6,34 @@ import 'package:sic/screens/profile/profile.dart';
 import 'package:sic/screens/transactions/transaction.dart';
 
 class SicCommonScreen extends StatefulWidget {
-  const SicCommonScreen({Key? key}) : super(key: key);
+  final Map<String, dynamic> userData;
+  const SicCommonScreen({Key? key, required this.userData}) : super(key: key);
 
   @override
   State<SicCommonScreen> createState() => _SicCommonScreenState();
 }
 
 class _SicCommonScreenState extends State<SicCommonScreen> {
-  // Define your pages here
-  final List<Widget> _pages = [
-    const Home(),
-    const SicTransAtions(),
-    const SicCard(),
-    const SicProfile(),
-  ];
-
   late PersistentTabController _controller;
+  late List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController();
+    super.initState();
+    _controller = PersistentTabController();
+    _pages = [
+      Home(userData: widget.userData),
+      const SicTransAtions(),
+      const SicCard(),
+       SicProfile(userData: widget.userData),
+    ];
   }
+
+  // @override
+  // void initState() {
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,7 @@ class _SicCommonScreenState extends State<SicCommonScreen> {
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.monetization_on),
-            title: 'Transaction',
+            title: 'Packagers',
             activeColorPrimary: const Color(0xffD3F570),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(

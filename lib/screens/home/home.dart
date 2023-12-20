@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sic/components/custem_text.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final Map<String, dynamic> userData;
+  const Home({super.key, required this.userData});
 
   @override
   State<Home> createState() => _HomeState();
@@ -48,17 +49,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 const SizedBox(
                   width: 15,
                 ),
-                const Column(
+                Column(
                   //mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustemText(
-                      text: 'Chanidu Madalagama',
+                      text: widget.userData['first_name'] +
+                          ' ' +
+                          widget.userData['last_name'],
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                       fontsize: 16,
                     ),
-                    CustemText(
+                    const CustemText(
                       text: 'Good Morning!',
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -69,11 +72,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 const SizedBox(
                   width: 15,
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
                   ),
                 )
               ],
