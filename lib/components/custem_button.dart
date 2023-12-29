@@ -10,6 +10,7 @@ class CustemButton extends StatelessWidget {
     this.fontsize = 18,
     this.color,
     this.textcolor,
+    this.isLoading = false, // New parameter for loading state
     Key? key,
   }) : super(key: key);
 
@@ -19,13 +20,12 @@ class CustemButton extends StatelessWidget {
   final double fontsize;
   final Color? color;
   final Color? textcolor;
+  final bool isLoading; // New parameter for loading state
 
   @override
   Widget build(BuildContext context) {
     final buttonColor = color ?? AppClors.buttoncolor;
-
-    final textColorValue =
-        textcolor ?? Colors.white; // Updated local variable name
+    final textColorValue = textcolor ?? Colors.white;
 
     return GestureDetector(
       onTap: onTap,
@@ -36,14 +36,18 @@ class CustemButton extends StatelessWidget {
           color: buttonColor,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Center(
-          child: CustemText(
-            text: text,
-            fontsize: fontsize,
-            color: textColorValue, // Updated to use the local variable
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        child: isLoading
+            ? const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              )
+            : Center(
+                child: CustemText(
+                  text: text,
+                  fontsize: fontsize,
+                  color: textColorValue,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
       ),
     );
   }
