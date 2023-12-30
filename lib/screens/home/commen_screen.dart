@@ -26,7 +26,7 @@ class _SicCommonScreenState extends State<SicCommonScreen> {
     _pages = [
       Home(userData: widget.userData),
       const SicTransAtions(),
-      const SicCard(),
+       SicCard(userData: widget.userData),
        SicProfile(userData: widget.userData),
     ];
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sic/components/custem_text.dart';
 
@@ -11,11 +13,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  String greetingMessage = 'Loading...';
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
+    // Call updateGreetingMessage once when the widget is initialized
+    updateGreetingMessage();
+
+    // Update greeting message every minute
+    Timer.periodic(Duration(minutes: 1), (timer) {
+      updateGreetingMessage();
+    });
   }
 
   @override
@@ -24,8 +34,24 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  void updateGreetingMessage() {
+    final DateTime now = DateTime.now();
+    final int hour = now.hour;
+
+    setState(() {
+      if (hour < 12) {
+        greetingMessage = 'Good Morning!';
+      } else if (hour < 17) {
+        greetingMessage = 'Good Afternoon!';
+      } else {
+        greetingMessage = 'Good Evening!';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    updateGreetingMessage();
     return Scaffold(
       backgroundColor: Colors.black,
       body: Padding(
@@ -61,8 +87,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       fontWeight: FontWeight.w700,
                       fontsize: 16,
                     ),
-                    const CustemText(
-                      text: 'Good Morning!',
+                    CustemText(
+                      text: greetingMessage,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                       fontsize: 12,
@@ -96,12 +122,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             const SizedBox(
               height: 10,
             ),
-            const CustemText(
-              text: '\$42,295.00 USD',
-              color: Color(0xffB6EF11),
+            CustemText(
+              text:
+                  '\ ${widget.userData['user_account_balance']} ${widget.userData['user_currency_type'] == '1' ? 'LKR' : 'USD'}',
+              color: const Color(0xffB6EF11),
               fontWeight: FontWeight.w800,
               fontsize: 28,
             ),
+            // const CustemText(
+            //   text: '\$42,295.00 USD',
+            //   color: Color(0xffB6EF11),
+            //   fontWeight: FontWeight.w800,
+            //   fontsize: 28,
+            // ),
             const SizedBox(
               height: 10,
             ),

@@ -5,7 +5,8 @@ import 'package:sic/screens/card/buy_packagers.dart';
 import 'package:sic/utils/utill_functions.dart';
 
 class SicCard extends StatefulWidget {
-  const SicCard({Key? key}) : super(key: key);
+  final Map<String, dynamic> userData;
+  const SicCard({Key? key, required this.userData}) : super(key: key);
 
   @override
   State<SicCard> createState() => _SicCardState();
@@ -47,7 +48,7 @@ class _SicCardState extends State<SicCard> {
         //     Navigator.pop(context);
         //   },
         // ),
-        title: Text(
+        title: const Text(
           'Package Data',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
@@ -65,11 +66,17 @@ class _SicCardState extends State<SicCard> {
                   margin: const EdgeInsets.all(16),
                   child: InkWell(
                     onTap: () {
-                      UtillFunction.navigateTo(context, BuyPackagePage());
+                      UtillFunction.navigateTo(
+                          context,
+                          BuyPackagePage(
+                            packageID: package['id'], userData: widget.userData,
+                            // package: package,
+                          ));
+                      print(package);
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Color(0xffD3F570),
+                          color: const Color(0xffD3F570),
                           borderRadius: BorderRadius.circular(15)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,

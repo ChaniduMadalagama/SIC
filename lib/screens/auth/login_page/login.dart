@@ -56,6 +56,7 @@ class _SicLoginPageState extends State<SicLoginPage> {
             UtillFunction.navigateTo(
                 context, SicCommonScreen(userData: userData));
           } else {
+            // ignore: use_build_context_synchronously
             showDialog(
               context: context,
               builder: (BuildContext context) {

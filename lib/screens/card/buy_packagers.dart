@@ -5,16 +5,25 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class BuyPackagePage extends StatefulWidget {
-  const BuyPackagePage({
+  final String packageID;
+  final Map<String, dynamic> userData;
+  //final List<dynamic> package;
+  BuyPackagePage({
     Key? key,
+    required this.packageID,
+    required this.userData,
+
+    //required this.package,
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _BuyPackagePageState createState() => _BuyPackagePageState();
 }
 
 class _BuyPackagePageState extends State<BuyPackagePage> {
   String? verificationDocUrl;
+  late final List<dynamic> package;
 
   Future<void> _selectAndUploadVerificationDoc() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -58,8 +67,8 @@ class _BuyPackagePageState extends State<BuyPackagePage> {
       try {
         Dio dio = Dio();
         Map<String, dynamic> requestBody = {
-          'package': '657453e949c1fa28f4587127',
-          'user_id': '6582b7d26cf99d00430b6c6a',
+          'package': widget.packageID,
+          'user_id': widget.userData['id'],
           'payment_method': '1',
           'tr_verification_doc': verificationDocUrl,
         };
@@ -83,7 +92,7 @@ class _BuyPackagePageState extends State<BuyPackagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buy Package'),
+        title: const Text('Buy Package'),
       ),
       body: Center(
         child: Column(
@@ -91,12 +100,19 @@ class _BuyPackagePageState extends State<BuyPackagePage> {
           children: [
             ElevatedButton(
               onPressed: _selectAndUploadVerificationDoc,
-              child: Text('Select and Upload Verification Doc'),
+              child: const Text('Select and Upload Verification Doc'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _buyPackage,
-              child: Text('Buy Package'),
+              child: const Text('Buy Package'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                print(widget.packageID);
+                print(widget.userData);
+              },
+              child: const Text('print'),
             ),
           ],
         ),
