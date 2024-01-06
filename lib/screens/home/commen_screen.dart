@@ -3,7 +3,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:sic/screens/card/card.dart';
 import 'package:sic/screens/home/home.dart';
 import 'package:sic/screens/profile/profile.dart';
-import 'package:sic/screens/transactions/transaction.dart';
+import 'package:sic/screens/recentactivety/recentactivety.dart';
 
 class SicCommonScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -25,9 +25,12 @@ class _SicCommonScreenState extends State<SicCommonScreen> {
     _controller = PersistentTabController();
     _pages = [
       Home(userData: widget.userData),
-      const SicTransAtions(),
-       SicCard(userData: widget.userData),
-       SicProfile(userData: widget.userData),
+      RecentActivityWidget1(
+        userId: widget.userData['id'],
+      ),
+      // SicTransAtions(userData: widget.userData),
+      SicCard(userData: widget.userData),
+      SicProfile(userData: widget.userData),
     ];
   }
 
@@ -45,22 +48,22 @@ class _SicCommonScreenState extends State<SicCommonScreen> {
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.home),
             title: 'Home',
-            activeColorPrimary: const Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffffb100),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.credit_card),
-            title: 'Card',
-            activeColorPrimary: const Color(0xffD3F570),
+            title: 'RecentActivity',
+            activeColorPrimary: const Color(0xffffb100),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.monetization_on),
             title: 'Packagers',
-            activeColorPrimary: const Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffffb100),
             inactiveColorPrimary: Colors.white),
         PersistentBottomNavBarItem(
             icon: const Icon(Icons.person),
             title: 'Profile',
-            activeColorPrimary: const Color(0xffD3F570),
+            activeColorPrimary: const Color(0xffffb100),
             inactiveColorPrimary: Colors.white),
       ],
       decoration: const NavBarDecoration(

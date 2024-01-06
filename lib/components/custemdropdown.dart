@@ -33,12 +33,12 @@ class CustemDropdown extends StatelessWidget {
               }
             }
           },
-          items: [
+          items: const [
             DropdownMenuItem<int>(
               value: 0,
               child: Text(
                 'LKR',
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -50,7 +50,7 @@ class CustemDropdown extends StatelessWidget {
               value: 1,
               child: Text(
                 'USD',
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -62,7 +62,7 @@ class CustemDropdown extends StatelessWidget {
           style: const TextStyle(
             color: Colors.black,
           ),
-          underline: SizedBox.shrink(),
+          underline: const SizedBox.shrink(),
           icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
         ),
       ),

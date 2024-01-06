@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sic/screens/card/buy_packagers.dart';
@@ -23,7 +24,7 @@ class _SicCardState extends State<SicCard> {
 
   Future<void> fetchData() async {
     final response = await http.get(Uri.parse(
-        'https://sis-web-staging.onrender.com/api/v1/mobileapi/app/getpackages'));
+        'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/app/getpackages'));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -35,83 +36,84 @@ class _SicCardState extends State<SicCard> {
     }
   }
 
+  Future<void> _refreshData() async {
+    await fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        // iconTheme:
-        //     IconThemeData(color: Colors.white), // Set the back button color
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back_ios),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
         title: const Text(
           'Package Data',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         backgroundColor: Colors.black,
       ),
-      body: packages.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: packages.length,
-              itemBuilder: (context, index) {
-                final package = packages[index];
-                return Card(
-                  margin: const EdgeInsets.all(16),
-                  child: InkWell(
-                    onTap: () {
-                      UtillFunction.navigateTo(
-                          context,
-                          BuyPackagePage(
-                            packageID: package['id'], userData: widget.userData,
-                            // package: package,
-                          ));
-                      print(package);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xffD3F570),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            title: Text(
-                              package['name'],
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: packages.isEmpty
+            ? Center(
+                child: SpinKitWave(
+                  color: Color(0xffffb100),
+                ),
+              )
+            : ListView.builder(
+                itemCount: packages.length,
+                itemBuilder: (context, index) {
+                  final package = packages[index];
+                  return Card(
+                    margin: const EdgeInsets.all(16),
+                    child: InkWell(
+                      onTap: () {
+                        UtillFunction.navigateTo(
+                            context,
+                            BuyPackagePage(
+                              packageID: package['id'],
+                              userData: widget.userData,
+                            ));
+                        print(package);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: const Color(0xffffb100),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              title: Text(
+                                package['name'],
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text('Code: ${package['code']}'),
                             ),
-                            subtitle: Text('Code: ${package['code']}'),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Description: ${package['description']}',
-                              style: const TextStyle(fontSize: 16),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Description: ${package['description']}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Rate: ${package['rate']}',
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.blue),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Rate: ${package['rate']}',
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.blue),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }

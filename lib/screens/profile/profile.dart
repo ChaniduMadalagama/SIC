@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sic/components/custem_text.dart';
 import 'package:sic/screens/profile/profile_verification.dart';
+import 'package:sic/screens/profile/profilesetting.dart';
+import 'package:sic/screens/support/support.dart';
 import 'package:sic/utils/utill_functions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SicProfile extends StatefulWidget {
-   final Map<String, dynamic> userData;
+  final Map<String, dynamic> userData;
   const SicProfile({super.key, required this.userData});
 
   @override
@@ -27,7 +31,7 @@ class _SicProfileState extends State<SicProfile> {
               padding: const EdgeInsets.symmetric(
                 vertical: 20,
               ),
-              height: 204,
+              height: 250,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: const Color(0xff1B1B1B),
@@ -42,25 +46,44 @@ class _SicProfileState extends State<SicProfile> {
                     width: 80,
                     height: 80,
                     child: Image.network(
-                        "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg"),
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  const CustemText(
-                    text: 'Chanidu Madalagama',
+                  CustemText(
+                    text:
+                        '${widget.userData['first_name'] ?? ''} ${widget.userData['last_name'] ?? ''}',
+
+                    // text: widget.userData['first_name'] +
+                    //     ' ' +
+                    //     widget.userData['last_name'],
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
-                    fontsize: 16,
+                    fontsize: 25,
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
-                  const CustemText(
-                    text: 'tonikross@gmai.com',
+                  CustemText(
+                    text:
+                        'Referral Code: ${widget.userData['user_referral_code']}',
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontsize: 12,
+                    fontsize: 18,
+                  ),
+                  Text(
+                    widget.userData['active_status'] == 1
+                        ? 'Account is Active'
+                        : 'Account Activation Pending',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        fontSize: 15,
+                        color: widget.userData['active_status'] == 1
+                            ? Colors.green
+                            : Colors.red,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -70,7 +93,11 @@ class _SicProfileState extends State<SicProfile> {
             ),
             InkWell(
               onTap: () {
-                UtillFunction.navigateTo(context, FileUploadPage(userData: widget.userData,));
+                UtillFunction.navigateTo(
+                    context,
+                    FileUploadPage(
+                      userData: widget.userData,
+                    ));
               },
               child: Container(
                 padding:
@@ -86,7 +113,7 @@ class _SicProfileState extends State<SicProfile> {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                          color: const Color(0xffD3F570),
+                          color: const Color(0xffffb100),
                           borderRadius: BorderRadius.circular(16)),
                       child: const Icon(
                         Icons.verified,
@@ -98,6 +125,57 @@ class _SicProfileState extends State<SicProfile> {
                     ),
                     const CustemText(
                       text: 'Profile verification',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontsize: 16,
+                    ),
+                    const Expanded(
+                      child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                UtillFunction.navigateTo(
+                    context, Profilesetting(userData: widget.userData));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: const Color(0xff1B1B1B),
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: const Color(0xff9280FD),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const CustemText(
+                      text: 'Profile setting',
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontsize: 16,
@@ -131,51 +209,7 @@ class _SicProfileState extends State<SicProfile> {
                     height: 40,
                     width: 40,
                     decoration: BoxDecoration(
-                        color: const Color(0xff9280FD),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const CustemText(
-                    text: 'Profile setting',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontsize: 16,
-                  ),
-                  const Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: const Color(0xff1B1B1B),
-                  borderRadius: BorderRadius.circular(16)),
-              child: Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: const Color(0xffD3F570),
+                        color: const Color(0xffffb100),
                         borderRadius: BorderRadius.circular(16)),
                     child: const Icon(
                       Icons.settings,
@@ -206,45 +240,52 @@ class _SicProfileState extends State<SicProfile> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: const Color(0xff1B1B1B),
-                  borderRadius: BorderRadius.circular(16)),
-              child: Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff9280FD),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Icon(
-                      Icons.support_agent,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const CustemText(
-                    text: 'Support',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontsize: 16,
-                  ),
-                  const Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
+            InkWell(
+              onTap: () {
+                launch('https://sicweb-78c6801c0953.herokuapp.com/');
+                //UtillFunction.navigateTo(context, LordThuisPage());
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: const Color(0xff1B1B1B),
+                    borderRadius: BorderRadius.circular(16)),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: const Color(0xff9280FD),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: const Icon(
+                        Icons.support_agent,
                         color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const CustemText(
+                      text: 'Support',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontsize: 16,
+                    ),
+                    const Expanded(
+                      child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -267,7 +308,7 @@ class _SicProfileState extends State<SicProfile> {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                          color: const Color(0xffD3F570),
+                          color: const Color(0xffffb100),
                           borderRadius: BorderRadius.circular(16)),
                       child: const Icon(
                         Icons.logout,

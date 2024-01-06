@@ -29,16 +29,16 @@ class _SicRegisterState extends State<SicRegister> {
   FocusNode focusNode = FocusNode();
   bool isobscureText = false;
   int selectedCurrencyType = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    // Additional initialization if needed
-  }
+  bool isLoading = false;
+  String errorMessage = '';
 
   Future<void> registerUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
     const url =
-        'https://sis-web-staging.onrender.com/api/v1/mobileapi/app/saveappuser';
+        'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/app/saveappuser';
     final Map<String, dynamic> requestBody = {
       "first_name": firstName.text,
       "last_name": lastName.text,
@@ -99,10 +99,20 @@ class _SicRegisterState extends State<SicRegister> {
         // Handle registration failure
         print('Registration failed with status code: ${response.statusCode}');
         print(response.body);
+        setState(() {
+          errorMessage = 'Registration failed. Please try again.';
+        });
       }
     } catch (error) {
       // Handle any errors during the HTTP request
       print('Error during registration: $error');
+      setState(() {
+        errorMessage = 'Error during registration. Please try again.';
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -122,7 +132,7 @@ class _SicRegisterState extends State<SicRegister> {
                     Text(
                       'Create Account',
                       style: TextStyle(
-                        color: const Color(0xffD3F570),
+                        color: const Color(0xffffb100),
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
                       ),
@@ -210,6 +220,7 @@ class _SicRegisterState extends State<SicRegister> {
                   if (newValue != null) {
                     setState(() {
                       selectedCurrencyType = newValue;
+                      print(selectedCurrencyType);
                     });
                   }
                 },
@@ -237,13 +248,29 @@ class _SicRegisterState extends State<SicRegister> {
                 isobscureText: true,
               ),
               const SizedBox(height: 30),
-              CustemButton(
-                onTap: () {
-                  registerUser();
-                  print('Test');
-                },
-                text: 'Sign up',
+              ElevatedButton(
+                onPressed: isLoading ? null : () => registerUser(),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  padding: const EdgeInsets.all(16),
+                ),
+                child: isLoading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      )
+                    : Text(
+                        'Sign up',
+                        style: TextStyle(fontSize: 18),
+                      ),
               ),
+              if (errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
               const SizedBox(height: 30),
               CustemButton(
                 textcolor: Colors.black,

@@ -22,7 +22,6 @@ class _SicLoginPageState extends State<SicLoginPage> {
   Widget build(BuildContext context) {
     final _phonehumber = TextEditingController();
     final _password = TextEditingController();
-
     Future<void> loginUser(BuildContext context) async {
       // Set loading state to true when login starts
       setState(() {
@@ -30,7 +29,7 @@ class _SicLoginPageState extends State<SicLoginPage> {
       });
 
       const url =
-          'https://sis-web-staging.onrender.com/api/v1/mobileapi/mobileuserlogin';
+          'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/mobileuserlogin';
       final Map<String, dynamic> requestBody = {
         "user_key": "7760524e-7334-4ae6-bd3d-cd0a5ba8a09c",
         "phone": _phonehumber.text,
@@ -53,9 +52,11 @@ class _SicLoginPageState extends State<SicLoginPage> {
 
             final Map<String, dynamic> userData = responseData['userData'];
 
+            // ignore: use_build_context_synchronously
             UtillFunction.navigateTo(
                 context, SicCommonScreen(userData: userData));
           } else {
+            // Show popup for invalid credentials
             // ignore: use_build_context_synchronously
             showDialog(
               context: context,
@@ -76,11 +77,49 @@ class _SicLoginPageState extends State<SicLoginPage> {
             );
           }
         } else {
-          print('Login failed with status code: ${response.statusCode}');
-          print(response.body);
+          // Show popup for other HTTP status codes
+          // ignore: use_build_context_synchronously
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: Text(
+                    'Login failed with status code: ${response.statusCode}'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         }
       } catch (error) {
         print('Error during login: $error');
+        // Show generic error popup
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text(
+                  'An error occurred during login. Please try again.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       } finally {
         // Set loading state to false when login is complete (success or failure)
         setState(() {
@@ -88,6 +127,72 @@ class _SicLoginPageState extends State<SicLoginPage> {
         });
       }
     }
+
+    // Future<void> loginUser(BuildContext context) async {
+    //   // Set loading state to true when login starts
+    //   setState(() {
+    //     isLoading = true;
+    //   });
+
+    //   const url =
+    //       'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/mobileuserlogin';
+    //   final Map<String, dynamic> requestBody = {
+    //     "user_key": "7760524e-7334-4ae6-bd3d-cd0a5ba8a09c",
+    //     "phone": _phonehumber.text,
+    //     "password": _password.text,
+    //   };
+
+    //   try {
+    //     final response = await http.post(
+    //       Uri.parse(url),
+    //       body: jsonEncode(requestBody),
+    //       headers: {'Content-Type': 'application/json'},
+    //     );
+
+    //     if (response.statusCode == 200) {
+    //       final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+    //       if (responseData['status']) {
+    //         print('Login successful');
+    //         print(response.body);
+
+    //         final Map<String, dynamic> userData = responseData['userData'];
+
+    //         UtillFunction.navigateTo(
+    //             context, SicCommonScreen(userData: userData));
+    //       } else {
+    //         // ignore: use_build_context_synchronously
+    //         showDialog(
+    //           context: context,
+    //           builder: (BuildContext context) {
+    //             return AlertDialog(
+    //               title: const Text('Invalid Credentials'),
+    //               content: Text(responseData['message']),
+    //               actions: [
+    //                 TextButton(
+    //                   onPressed: () {
+    //                     Navigator.pop(context);
+    //                   },
+    //                   child: const Text('OK'),
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //         );
+    //       }
+    //     } else {
+    //       print('Login failed with status code: ${response.statusCode}');
+    //       print(response.body);
+    //     }
+    //   } catch (error) {
+    //     print('Error during login: $error');
+    //   } finally {
+    //     // Set loading state to false when login is complete (success or failure)
+    //     setState(() {
+    //       isLoading = false;
+    //     });
+    //   }
+    // }
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -105,7 +210,7 @@ class _SicLoginPageState extends State<SicLoginPage> {
                     Text(
                       'Login here',
                       style: TextStyle(
-                        color: Color(0xffD3F570),
+                        color: Color(0xffffb100),
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
                       ),

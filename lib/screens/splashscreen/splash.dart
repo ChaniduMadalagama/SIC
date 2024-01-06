@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sic/screens/auth/login_page/login.dart';
-import 'package:sic/utils/app_colors.dart';
+
 
 class SicSplashScreen extends StatefulWidget {
-  const SicSplashScreen({super.key});
+  const SicSplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SicSplashScreen> createState() => _SicSplashScreenState();
@@ -21,12 +21,11 @@ class _SicSplashScreenState extends State<SicSplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppClors.backgroundcolor,
-      body: const Center(
-        child: Text(
-          'LOGO',
-          style: TextStyle(color: Colors.white),
-        ),
+      backgroundColor: Colors.black,
+      body: Center(
+        // You can add an Image widget here if you want to display the logo.
+        // Example:
+        child: Image.asset('assets/images/loginlogo.png'),
       ),
     );
   }

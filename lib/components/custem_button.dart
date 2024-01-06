@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sic/components/custem_text.dart';
 import 'package:sic/utils/app_colors.dart';
 
@@ -37,8 +38,9 @@ class CustemButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: isLoading
-            ? const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ? SpinKitWave(
+                color: Colors.white,
+                size: 30,
               )
             : Center(
                 child: CustemText(
