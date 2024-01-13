@@ -12,7 +12,6 @@ class SicWithdrowMoney extends StatefulWidget {
   const SicWithdrowMoney({Key? key, required this.userData}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _SicWithdrowMoneyState createState() => _SicWithdrowMoneyState();
 }
 
@@ -24,23 +23,77 @@ class _SicWithdrowMoneyState extends State<SicWithdrowMoney> {
   TextEditingController branchController = TextEditingController();
   TextEditingController walletAddressController = TextEditingController();
 
+  bool isLoading = false; // Variable to track loading state
+
   Future<Map<String, dynamic>> submitWithdrawRequest(
       String apiUrl, dynamic requestBody) async {
     try {
       final response =
           await http.post(Uri.parse(apiUrl), body: jsonEncode(requestBody));
       if (response.statusCode == 200) {
+        showSuccessPopup(); // Show success popup
         return jsonDecode(response.body);
       } else {
         print(
             'Failed to submit withdrawal request - Status Code: ${response.statusCode}');
-        print('Response Body: ${response.body}');
-        throw Exception('Failed to submit withdrawal request');
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        String errorMessage = jsonResponse['error'];
+
+        // Show error popup based on the response
+        showErrorPopup(errorMessage);
+
+        throw Exception(
+            'Failed to submit withdrawal request - ${response.statusCode}');
       }
     } catch (e) {
       print('Exception during withdrawal request: $e');
-      throw Exception('Failed to submit withdrawal request');
+
+      // Show error popup for general exception
+      showErrorPopup(e.toString());
+
+      throw Exception('Failed to submit withdrawal request - $e');
     }
+  }
+
+  void showSuccessPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text(
+              'Withdrawal request successful. Amount will be transferred within 48 hours.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showErrorPopup(dynamic errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(errorMessage),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -74,7 +127,7 @@ class _SicWithdrowMoneyState extends State<SicWithdrowMoney> {
                 // Existing UI
                 CustemText(
                   text:
-                      '\Balance : ${widget.userData['user_account_balance']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
+                      'Balance : ${widget.userData['user_withdraw_amount']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
                   color: const Color(0xffffb100),
                   fontWeight: FontWeight.w800,
                   fontsize: 25,
@@ -86,7 +139,7 @@ class _SicWithdrowMoneyState extends State<SicWithdrowMoney> {
                   hintText: 'Amount',
                 ),
                 const SizedBox(height: 26),
-                if (widget.userData['user_currency_type'] == 0) ...[
+                if (widget.userData['user_currency_type'] == 0) ...{
                   CustemTextfield(
                     controller: accountNameController,
                     hintText: 'Account Name',
@@ -107,38 +160,62 @@ class _SicWithdrowMoneyState extends State<SicWithdrowMoney> {
                     hintText: 'Branch',
                   ),
                   const SizedBox(height: 26),
-                ] else ...[
+                } else ...{
                   CustemTextfield(
                     controller: walletAddressController,
                     hintText: 'Wallet Address',
                   ),
-                ],
-                const SizedBox(height: 26),
+                  const SizedBox(height: 26),
+                },
                 CustemButton(
                   onTap: () {
-                    print(widget.userData['id']);
-                    print(widget.userData['user_currency_type']);
+                    if (isLoading) {
+                      return; // Do nothing if already loading
+                    }
+
+                    setState(() {
+                      isLoading = true; // Set loading state to true
+                    });
 
                     String apiUrl = widget.userData['user_currency_type'] == 0
-                        ? 'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/app/withdrawmoneylog_lkr'
-                        : 'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/app/withdrawmoneylog_usd';
+                        ? 'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/app/withdrawmoneylog'
+                        : 'https://sicweb-78c6801c0953.herokuapp.com/api/v1/mobileapi/app/withdrawmoneylog';
 
                     // Construct requestBody based on user input
-                    dynamic requestBody = {
-                      "user_id": '65900ad7c6fdb85bb86de9cf',
-                      "requested_amount": amountController.text,
-                      "account_name": accountNameController.text,
-                      "account_number": accountNumberController.text,
-                      "bank": bankController.text,
-                      "branch": branchController.text
-                      // Add other fields based on user input
-                    };
+                    dynamic requestBody;
 
-                    submitWithdrawRequest(apiUrl, requestBody)
-                        .then((response) {});
+                    if (widget.userData['user_currency_type'] == 0) {
+                      // LKR request body
+                      requestBody = {
+                        "user_id": widget.userData['id'],
+                        "requested_amount": int.parse(amountController.text),
+                        "account_name": accountNameController.text,
+                        "account_number": accountNumberController.text,
+                        "bank": bankController.text,
+                        "branch": branchController.text,
+                      };
+                    } else {
+                      // USD request body
+                      requestBody = {
+                        "user_id": widget.userData['id'],
+                        "requested_amount": amountController.text,
+                        "wallet_address": walletAddressController.text,
+                      };
+                    }
+
+                    submitWithdrawRequest(apiUrl, requestBody).then((response) {
+                      setState(() {
+                        isLoading =
+                            false; // Set loading state to false after completion
+                      });
+                    });
                   },
-                  text: 'Withdraw Money',
+                  text: isLoading ? 'Withdrawing...' : 'Withdraw Money',
                 ),
+                if (isLoading) ...{
+                  const SizedBox(height: 16),
+                  const CircularProgressIndicator(),
+                },
               ],
             ),
           ),

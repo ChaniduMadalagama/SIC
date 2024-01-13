@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sic/screens/auth/login_page/login.dart';
 
-
 class SicSplashScreen extends StatefulWidget {
   const SicSplashScreen({Key? key}) : super(key: key);
 
@@ -25,7 +24,10 @@ class _SicSplashScreenState extends State<SicSplashScreen> {
       body: Center(
         // You can add an Image widget here if you want to display the logo.
         // Example:
-        child: Image.asset('assets/images/loginlogo.png'),
+        child: Image.asset(
+          'assets/images/loginlogo.png',
+          scale: 4,
+        ),
       ),
     );
   }

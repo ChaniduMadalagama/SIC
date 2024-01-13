@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:sic/components/custem_button.dart';
 import 'package:sic/components/custem_textfeeld.dart';
@@ -64,6 +65,7 @@ class _SicRegisterState extends State<SicRegister> {
         print(response.body);
 
         // Show success popup
+        // ignore: use_build_context_synchronously
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -248,20 +250,23 @@ class _SicRegisterState extends State<SicRegister> {
                 isobscureText: true,
               ),
               const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: isLoading ? null : () => registerUser(),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  padding: const EdgeInsets.all(16),
+              Container(
+                width: double.infinity,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: isLoading ? null : () => registerUser(),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xffffb100),
+                  ),
+                  child: isLoading
+                      ? SpinKitWave(
+                          color: Color(0xffffb100),
+                        )
+                      : Text(
+                          'Sign up',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                 ),
-                child: isLoading
-                    ? CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
-                    : Text(
-                        'Sign up',
-                        style: TextStyle(fontSize: 18),
-                      ),
               ),
               if (errorMessage.isNotEmpty)
                 Padding(

@@ -196,50 +196,50 @@ class _SicProfileState extends State<SicProfile> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: const Color(0xff1B1B1B),
-                  borderRadius: BorderRadius.circular(16)),
-              child: Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: const Color(0xffffb100),
-                        borderRadius: BorderRadius.circular(16)),
-                    child: const Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const CustemText(
-                    text: 'Setting',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontsize: 16,
-                  ),
-                  const Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            // Container(
+            //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            //   height: 60,
+            //   width: MediaQuery.of(context).size.width,
+            //   decoration: BoxDecoration(
+            //       color: const Color(0xff1B1B1B),
+            //       borderRadius: BorderRadius.circular(16)),
+            //   child: Row(
+            //     children: [
+            //       Container(
+            //         height: 40,
+            //         width: 40,
+            //         decoration: BoxDecoration(
+            //             color: const Color(0xffffb100),
+            //             borderRadius: BorderRadius.circular(16)),
+            //         child: const Icon(
+            //           Icons.settings,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //       const SizedBox(
+            //         width: 10,
+            //       ),
+            //       const CustemText(
+            //         text: 'Setting',
+            //         color: Colors.white,
+            //         fontWeight: FontWeight.w500,
+            //         fontsize: 16,
+            //       ),
+            //       const Expanded(
+            //         child: Align(
+            //           alignment: AlignmentDirectional.centerEnd,
+            //           child: Icon(
+            //             Icons.arrow_forward_ios,
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
             InkWell(
               onTap: () {
                 launch('https://sicweb-78c6801c0953.herokuapp.com/');

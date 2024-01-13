@@ -8,6 +8,7 @@ import 'package:sic/components/custem_text.dart';
 import 'package:sic/screens/home/activerefrels.dart';
 import 'package:sic/screens/home/recent_activetys.dart';
 import 'package:sic/screens/home/withdrowmony.dart';
+import 'package:sic/screens/more/more.dart';
 import 'package:sic/utils/utill_functions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -134,6 +135,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 height: 60,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     height: 48,
@@ -147,7 +149,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     width: 15,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //crossAxisAlignment: CrossAxisAlignment.baseline,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,22 +172,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       const SizedBox(
                         width: 80,
                       ),
-                      IconButton(
-                        onPressed: () async {
-                          await refreshUserData();
-                        },
-                        icon: isLoading
-                            ? SpinKitWave(
-                                color: Color(0xffffb100),
-                                size: 25,
-                              )
-                            : const Icon(
-                                Icons.refresh,
-                                color: Colors.white,
-                              ),
-                      )
                     ],
                   ),
+                  IconButton(
+                    onPressed: () async {
+                      await refreshUserData();
+                    },
+                    icon: isLoading
+                        ? SpinKitWave(
+                            color: Color(0xffffb100),
+                            size: 25,
+                          )
+                        : const Icon(
+                            Icons.refresh,
+                            color: Colors.white,
+                          ),
+                  )
                 ],
               ),
               const SizedBox(
@@ -197,6 +199,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     : 'Account Activation Pending',
                 style: GoogleFonts.poppins(
                   textStyle: TextStyle(
+                    fontSize: 18,
                     color: widget.userData['active_status'] == 1
                         ? Colors.green
                         : Colors.red,
@@ -206,21 +209,127 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               const SizedBox(
                 height: 10,
               ),
-              const CustemText(
-                text: 'Total balance',
-                color: Colors.white,
-                fontWeight: FontWeight.w400,
-                fontsize: 12,
+              CustemText(
+                text: widget.userData['user_current_package'].isNotEmpty
+                    ? 'current package : ${widget.userData['user_current_package']}'
+                    : 'Package Name Not Available',
+                color: Color.fromARGB(255, 255, 255, 255),
+                fontWeight: FontWeight.w500,
+                fontsize: 15,
               ),
               const SizedBox(
                 height: 10,
               ),
-              CustemText(
-                text:
-                    '\ ${widget.userData['user_account_balance']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
-                color: const Color(0xffffb100),
-                fontWeight: FontWeight.w800,
-                fontsize: 28,
+              const Divider(
+                color: Colors.grey,
+                height: 5,
+                thickness: 1,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          const CustemText(
+                            text: 'Acount Amount',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontsize: 12,
+                          ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
+                          CustemText(
+                            text:
+                                '\ ${widget.userData['user_account_balance']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
+                            color: const Color(0xffffb100),
+                            fontWeight: FontWeight.w800,
+                            fontsize: 25,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const CustemText(
+                            text: 'Withdraw Balance',
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontsize: 12,
+                          ),
+                          CustemText(
+                            text:
+                                '\ ${widget.userData['user_withdraw_amount']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
+                            color: const Color(0xffffb100),
+                            fontWeight: FontWeight.w800,
+                            fontsize: 25,
+                          ),
+                        ],
+                      ),
+                      // Column(
+                      //   children: [
+
+                      //   ],
+                      // )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const CustemText(
+                    text: 'Hold Balance',
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontsize: 12,
+                  ),
+                  CustemText(
+                    text:
+                        '\ ${widget.userData['user_account_hold_balance']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
+                    color: const Color(0xffffb100),
+                    fontWeight: FontWeight.w800,
+                    fontsize: 28,
+                  ),
+                ],
+              ),
+
+              // const CustemText(
+              //   text: 'Acount Amount',
+              //   color: Colors.white,
+              //   fontWeight: FontWeight.w500,
+              //   fontsize: 15,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // CustemText(
+              //   text:
+              //       '\ ${widget.userData['user_account_balance']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
+              //   color: const Color(0xffffb100),
+              //   fontWeight: FontWeight.w800,
+              //   fontsize: 28,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // const CustemText(
+              //   text: 'Acount Amount',
+              //   color: Colors.white,
+              //   fontWeight: FontWeight.w500,
+              //   fontsize: 15,
+              // ),
+              // CustemText(
+              //   text:
+              //       '\ ${widget.userData['user_withdraw_amount']} ${widget.userData['user_currency_type'] == 0 ? 'LKR' : 'USD'}',
+              //   color: const Color(0xffffb100),
+              //   fontWeight: FontWeight.w800,
+              //   fontsize: 28,
+              // ),
+              const SizedBox(
+                height: 10,
               ),
               const SizedBox(
                 height: 10,
@@ -233,7 +342,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       children: [
@@ -281,7 +390,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               UtillFunction.navigateTo(
                                 context,
                                 ActiveReferralsWidget(
-                                  userId: '65900e97c6fdb85bb86de9df',
+                                  userId: widget.userData['id'],
                                   myReferelId:
                                       widget.userData['user_referral_code'],
                                 ),
@@ -305,32 +414,37 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            color: const Color(0xff1B1B1B),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: const Icon(
-                            Icons.settings,
-                            color: Colors.white,
-                            size: 32,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const CustemText(
-                          text: 'More',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontsize: 14,
-                        ),
-                      ],
-                    ),
+                    // Column(
+                    //   children: [
+                    //     InkWell(
+                    //       onTap: () {
+                    //         UtillFunction.navigateTo(context, MoreScreen());
+                    //       },
+                    //       child: Container(
+                    //         height: 60,
+                    //         width: 60,
+                    //         decoration: BoxDecoration(
+                    //           color: const Color(0xff1B1B1B),
+                    //           borderRadius: BorderRadius.circular(24),
+                    //         ),
+                    //         child: const Icon(
+                    //           Icons.settings,
+                    //           color: Colors.white,
+                    //           size: 32,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       height: 10,
+                    //     ),
+                    //     const CustemText(
+                    //       text: 'More',
+                    //       color: Colors.white,
+                    //       fontWeight: FontWeight.w600,
+                    //       fontsize: 14,
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
@@ -362,10 +476,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         child: FloatingActionButton(
           onPressed: () {
             // Replace 'your_whatsapp_group_link' with the actual invite link
-            launch('https://chat.whatsapp.com/KAcBWyCMUX87PrH491eBgB');
+            launch('https://whatsapp.com/channel/0029VaIdeHsGZNCrqf1INx3P');
           },
           child: Image.asset(
-            'assets/images/whatsapp.png', 
+            'assets/images/whatsapp.png',
           ),
         ),
       ),
